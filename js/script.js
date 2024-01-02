@@ -12,9 +12,6 @@
 // undefined 내가 선언을 안했을 안했어 
 // null 내가 선언은했는데 빈값이야 
 
-
-
-
 const new_todo = document.querySelector('.new-todo')
 const filters = document.querySelector('filters')
 const todo_list = document.querySelector('.todo-list')
@@ -36,19 +33,23 @@ new_todo.addEventListener('keyup', function(event){
         </div>
         <input class="edit" type="text" />
       `
-      //querySelector From The innerHTML
+      //SELECTING THINGS FROM HTML
       const view = newTodoList.querySelector('.view');
       const checkbox = newTodoList.querySelector('.toggle')
       const label = newTodoList.querySelector('label')
       const btnDestroy = newTodoList.querySelector('.destroy')
       const editInput = newTodoList.querySelector('.edit')
 
+      //WHEN YOU CLICK OTHER THEN 'editInput', PREVENT EVERY CHANGE
       editInput.addEventListener('blur', function() {
         if( editInput.value === "" ){
           newTodoList.remove();
           return;
         }
+
+        //PLACEHOLDER
         label.textContent = editInput.value;
+
         newTodoList.classList.remove("editing")
       })
   
@@ -118,7 +119,7 @@ clearCompleted.addEventListener('click', function () {
   });
 });
 
-// HOW MANY ITEMS LEFT?
+//HOW MANY ITEMS LEFT? (Strong Tag)
 function howManyItmes(){
   const todo_count = document.querySelector('.todo-count > strong')
   const newTodoList = todo_list.querySelectorAll('li:not(.completed):not(.editing)');
@@ -130,12 +131,11 @@ howManyItmes();
 //NEED TO EDIT MORE
 const toggleAll = document.querySelector('.toggle-all');
 
-
+//MARK EVERYTHING AS DONE
 function completeAll () {
   const newTodoList = todo_list.querySelectorAll('li:not(.completed):not(.editing)');
   const checkbox = document.querySelectorAll('.toggle')
-  // forEach를 사용하여 각각의 li에 대해 작업합니다.
-  // 권호 도움
+
   newTodoList.forEach(function(todoItem) {
     checkbox.forEach((element) => {
       element.checked = true
@@ -144,11 +144,13 @@ function completeAll () {
     todoItem.classList.add('completed');
   });
 
+  //NEXT TIME WHEN YOU HIT THE TOGGLE, MAKE EVERYTHING MARK AS ACTIVE
   toggleAll.removeEventListener('click', completeAll)
   toggleAll.addEventListener('click', unCompleteAll)
   howManyItmes();
 };
 
+//MARK EVERYTHING AS ACTIVE
 function unCompleteAll(){
   const liComEdi = todo_list.querySelectorAll('.editing, .completed');
   const checkbox = document.querySelectorAll('.toggle')
@@ -161,6 +163,7 @@ function unCompleteAll(){
     todoItem.classList.remove('completed');
   });
 
+  //NEXT TIME WHEN YOU HIT THE TOGGLE, MAKE EVERYTHING MARK AS DONE
   toggleAll.removeEventListener('click', unCompleteAll)
   toggleAll.addEventListener('click', completeAll)
 
@@ -174,7 +177,7 @@ const $all = document.querySelector('.filters li:nth-child(1) > a')
 const $active = document.querySelector('.filters li:nth-child(2) > a')
 const $completed = document.querySelector('.filters li:nth-child(3) > a')
 
-
+//ALL, NOT HIDING EVERYTHING
 $all.addEventListener('click', function(){
   const newTodoList = todo_list.querySelectorAll('li')
   newTodoList.forEach(function(isActive){
@@ -183,6 +186,7 @@ $all.addEventListener('click', function(){
 
 })
 
+//ACTIVE, SHOW ACTIVATED LIST ONLY
 $active.addEventListener('click', function(){
   const newTodoList = todo_list.querySelectorAll('li');
   newTodoList.forEach(function(isActive){
@@ -195,6 +199,7 @@ $active.addEventListener('click', function(){
 
 })
 
+//COMPLETED, SHOW COMPLETED LIST ONLY
 $completed.addEventListener('click', function(){
   const newTodoList = todo_list.querySelectorAll('li')
 
@@ -208,17 +213,12 @@ $completed.addEventListener('click', function(){
 
 })
 
-
-
-
-
+//FILTERS, IT MAKES THE 'A'TAG SELECTED
 const $filters = [...document.querySelectorAll('.filters li a')];
-
 
 window.addEventListener('hashchange',function(){
   $filters.forEach( $filter => $filter.classList.remove('selected')  );
   $filters.find( $filter => $filter.href === location.href ).className = 'selected';
-
 })
 
 
