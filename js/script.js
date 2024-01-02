@@ -44,6 +44,10 @@ new_todo.addEventListener('keyup', function(event){
       const editInput = newTodoList.querySelector('.edit')
 
       editInput.addEventListener('blur', function() {
+        if( editInput.value === "" ){
+          newTodoList.remove();
+          return;
+        }
         label.textContent = editInput.value;
         newTodoList.classList.remove("editing")
       })
@@ -69,6 +73,8 @@ new_todo.addEventListener('keyup', function(event){
           if(editInput.value !== "") {
             label.textContent = editInput.value;
             newTodoList.classList.remove("editing")
+          } else {
+            newTodoList.remove();
           }
         }
       })
@@ -164,44 +170,56 @@ function unCompleteAll(){
 toggleAll.addEventListener('click', completeAll)
 
 //SELECTING ACTIVE/COMPLETED
-const $all = document.querySelector('.filters li:nth-child(1)')
-const $active = document.querySelector('.filters li:nth-child(2)')
-const $completed = document.querySelector('.filters li:nth-child(3)')
-console.log($all);
+const $all = document.querySelector('.filters li:nth-child(1) > a')
+const $active = document.querySelector('.filters li:nth-child(2) > a')
+const $completed = document.querySelector('.filters li:nth-child(3) > a')
+
 
 $all.addEventListener('click', function(){
-  console.log(1);
   const newTodoList = todo_list.querySelectorAll('li')
-  const completedList = todo_list.querySelectorAll('.completed')
-  console.log(newTodoList);
+  newTodoList.forEach(function(isActive){
+    isActive.classList.remove('hidden')
+  })
+
 })
 
 $active.addEventListener('click', function(){
   const newTodoList = todo_list.querySelectorAll('li');
   newTodoList.forEach(function(isActive){
     if(isActive.classList.contains('completed')){
-      isActive.style.display = 'none'
-      $active.classList.add('selected')
+      isActive.classList.add('hidden')
     } else {
-      isActive.style.display = 'block'
+      isActive.classList.remove('hidden')
     }
   })
+
 })
 
 $completed.addEventListener('click', function(){
   const newTodoList = todo_list.querySelectorAll('li')
-  
+
   newTodoList.forEach(function(isCompleted){
-    if(isCompleted.classList !== ('completed')){
-      isCompleted.style.display = 'none'
-      $completed.classList.add('selected')
+    if(!isCompleted.classList.contains('completed')){
+      isCompleted.classList.add('hidden');
     } else {
-      isCompleted.style.display = 'block'
+      isCompleted.classList.remove('hidden')
     }
   })
+
 })
 
 
+
+
+
+const $filters = [...document.querySelectorAll('.filters li a')];
+
+
+window.addEventListener('hashchange',function(){
+  $filters.forEach( $filter => $filter.classList.remove('selected')  );
+  $filters.find( $filter => $filter.href === location.href ).className = 'selected';
+
+})
 
 
 
