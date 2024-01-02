@@ -12,6 +12,229 @@
 // undefined 내가 선언을 안했을 안했어 
 // null 내가 선언은했는데 빈값이야 
 
+
+
+
+const new_todo = document.querySelector('.new-todo')
+const filters = document.querySelector('filters')
+const todo_list = document.querySelector('.todo-list')
+
+
+//MAKE TODOLIST
+new_todo.addEventListener('keyup', function(event){
+  event.stopPropagation
+  if (new_todo.value !== '') {
+    if (event.code === 'Enter') {
+      //Use innerHTML Instead of document.querySelector(".class")
+      //It Will Make The Codes More Simple And Easy To Read
+      const newTodoList = document.createElement('li')
+      newTodoList.innerHTML = `
+        <div class="view">
+          <input class="toggle" type="checkbox" />
+          <label>${new_todo.value}</label>
+          <button class="destroy"></button>
+        </div>
+        <input class="edit" type="text" />
+      `
+      //querySelector From The innerHTML
+      const view = newTodoList.querySelector('.view');
+      const checkbox = newTodoList.querySelector('.toggle')
+      const label = newTodoList.querySelector('label')
+      const btnDestroy = newTodoList.querySelector('.destroy')
+      const editInput = newTodoList.querySelector('.edit')
+
+      editInput.addEventListener('blur', function() {
+        label.textContent = editInput.value;
+        newTodoList.classList.remove("editing")
+      })
+  
+      //MARK AS FINISHED
+      checkbox.addEventListener("change", function(){
+        if (checkbox.checked == true) {
+          newTodoList.classList.add("completed")
+        } else {
+          newTodoList.classList.remove("completed")
+        }
+        howManyItmes();
+      })
+  
+      //EDIT TODOLIST
+      label.addEventListener("dblclick", function() {
+        editInput.value = label.textContent;
+        newTodoList.classList.add("editing")
+      })
+      
+      newTodoList.addEventListener("keydown", function(event){
+        if(event.code === 'Enter'){
+          if(editInput.value !== "") {
+            label.textContent = editInput.value;
+            newTodoList.classList.remove("editing")
+          }
+        }
+      })
+     
+
+      // EXIT EDITING
+      // const editing_input = document.querySelector('.editing input')
+      // document.addEventListener('click', function(){
+      //   if(this.documentElement !== 'editing_input') {
+      //     newTodoList.classList.remove('editing')
+      //     console.log('1')
+      //   }
+      // })
+  
+      //DELETE TODOLIST
+      btnDestroy.addEventListener("click", function(){
+        console.log(1);
+        btnDestroy.parentElement.parentElement.remove()
+      })
+  
+      //MAKING TODOLIST
+      todo_list.append(newTodoList)
+      newTodoList.append(view)
+      new_todo.value = ''
+      howManyItmes();
+    }
+  } 
+     
+});
+
+//DELETE COMPLETED TODOLIST
+//used GPT
+const clearCompleted = document.querySelector('.clear-completed');
+clearCompleted.addEventListener('click', function () {
+  const toggleCheckBoxes = document.querySelectorAll('.toggle');
+  
+  toggleCheckBoxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+      checkbox.parentElement.parentElement.remove();
+    }
+  });
+});
+
+// HOW MANY ITEMS LEFT?
+function howManyItmes(){
+  const todo_count = document.querySelector('.todo-count > strong')
+  const newTodoList = todo_list.querySelectorAll('li:not(.completed):not(.editing)');
+  todo_count.innerHTML = newTodoList.length;
+}
+howManyItmes();
+
+//MARK ALL AS COMPLETE
+//NEED TO EDIT MORE
+const toggleAll = document.querySelector('.toggle-all');
+
+
+function completeAll () {
+  const newTodoList = todo_list.querySelectorAll('li:not(.completed):not(.editing)');
+  const checkbox = document.querySelectorAll('.toggle')
+  // forEach를 사용하여 각각의 li에 대해 작업합니다.
+  // 권호 도움
+  newTodoList.forEach(function(todoItem) {
+    checkbox.forEach((element) => {
+      element.checked = true
+    })
+    
+    todoItem.classList.add('completed');
+  });
+
+  toggleAll.removeEventListener('click', completeAll)
+  toggleAll.addEventListener('click', unCompleteAll)
+  howManyItmes();
+};
+
+function unCompleteAll(){
+  const liComEdi = todo_list.querySelectorAll('.editing, .completed');
+  const checkbox = document.querySelectorAll('.toggle')
+
+  liComEdi.forEach(function(todoItem) {
+    checkbox.forEach((element) => {
+      element.checked = false
+    })
+    
+    todoItem.classList.remove('completed');
+  });
+
+  toggleAll.removeEventListener('click', unCompleteAll)
+  toggleAll.addEventListener('click', completeAll)
+
+  howManyItmes();
+}
+
+toggleAll.addEventListener('click', completeAll)
+
+//SELECTING ACTIVE/COMPLETED
+const $all = document.querySelector('.filters li:nth-child(1)')
+const $active = document.querySelector('.filters li:nth-child(2)')
+const $completed = document.querySelector('.filters li:nth-child(3)')
+console.log($all);
+
+$all.addEventListener('click', function(){
+  console.log(1);
+  const newTodoList = todo_list.querySelectorAll('li')
+  const completedList = todo_list.querySelectorAll('.completed')
+  console.log(newTodoList);
+})
+
+$active.addEventListener('click', function(){
+  const newTodoList = todo_list.querySelectorAll('li');
+  newTodoList.forEach(function(isActive){
+    if(isActive.classList.contains('completed')){
+      isActive.style.display = 'none'
+      $active.classList.add('selected')
+    } else {
+      isActive.style.display = 'block'
+    }
+  })
+})
+
+$completed.addEventListener('click', function(){
+  const newTodoList = todo_list.querySelectorAll('li')
+  
+  newTodoList.forEach(function(isCompleted){
+    if(isCompleted.classList !== ('completed')){
+      isCompleted.style.display = 'none'
+      $completed.classList.add('selected')
+    } else {
+      isCompleted.style.display = 'block'
+    }
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// filters.addEventListener("click", function(){
+//   console.log(1);
+// })
 // const todos = [
 //   {
 //     name:'1',
@@ -140,61 +363,6 @@
 // //     console.log(12);
 // //   }
 // // }
-
-const new_todo = document.querySelector('.new-todo')
-const todo_list = document.querySelector('.todo-list')
-const todo_count = document.querySelector('.todo-count')
-
-new_todo.addEventListener('keyup', function(event){
-  if (event.code === 'Enter') {
-    
-    //Use innerHTML Instead of document.querySelector(".class")
-    //It Will Make The Codes More Simple
-    const newTodoList = document.createElement('li')
-    newTodoList.innerHTML = `
-      <div class="view">
-        <input class="toggle" type="checkbox" />
-        <label>${new_todo.value}</label>
-        <button class="destroy"></button>
-      </div>
-      <input class="edit" type="text" />
-    `
-    //querySelector From The innerHTML
-    const view = newTodoList.querySelector('.view');
-    const checkbox = newTodoList.querySelector('.toggle')
-    const label = newTodoList.querySelector('label')
-    const btnDestroy = newTodoList.querySelector('.destroy')
-
-    //MARK AS FINISHED
-    checkbox.addEventListener("change", function(){
-      console.log("change");
-      // checkbox.classList.add("completed")
-      console.log(checkbox.checked);
-      if (checkbox.checked == true) {
-        newTodoList.classList.add("completed")
-      } else {
-        newTodoList.classList.remove("completed")
-      }
-    })
-
-    //EDIT TODOLIST
-    label.addEventListener("dblclick", function() {
-      console.log("dblclick");
-
-      newTodoList.classList.add("editing")     
-    })
-
-    //DELETE TODOLIST
-    btnDestroy.addEventListener("click", function(){
-      console.log("click");
-      btnDestroy.parentElement.remove()
-    })
-
-    todo_list.append(newTodoList)
-    newTodoList.append(view)
-    new_todo.value = ''
-  } 
-});
 
 
 
