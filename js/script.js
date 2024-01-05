@@ -79,16 +79,6 @@ new_todo.addEventListener('keyup', function(event){
           }
         }
       })
-     
-
-      // EXIT EDITING
-      // const editing_input = document.querySelector('.editing input')
-      // document.addEventListener('click', function(){
-      //   if(this.documentElement !== 'editing_input') {
-      //     newTodoList.classList.remove('editing')
-      //     console.log('1')
-      //   }
-      // })
   
       //DELETE TODOLIST
       btnDestroy.addEventListener("click", function(){
@@ -166,7 +156,6 @@ function unCompleteAll(){
   //NEXT TIME WHEN YOU HIT THE TOGGLE, MAKE EVERYTHING MARK AS DONE
   toggleAll.removeEventListener('click', unCompleteAll)
   toggleAll.addEventListener('click', completeAll)
-
   howManyItmes();
 }
 
