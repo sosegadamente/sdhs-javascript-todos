@@ -15,6 +15,13 @@
 const new_todo = document.querySelector('.new-todo')
 const filters = document.querySelector('filters')
 const todo_list = document.querySelector('.todo-list')
+const toggleAll = document.querySelector('label');
+const footer = document.querySelector('footer');
+
+window.addEventListener('load', function(){
+  isFooterVisible();
+  isV_ToggleVisible();
+});
 
 
 //MAKE TODOLIST
@@ -33,6 +40,7 @@ new_todo.addEventListener('keyup', function(event){
         </div>
         <input class="edit" type="text" />
       `
+
       //SELECTING THINGS FROM HTML
       const view = newTodoList.querySelector('.view');
       const checkbox = newTodoList.querySelector('.toggle')
@@ -49,7 +57,6 @@ new_todo.addEventListener('keyup', function(event){
 
         //PLACEHOLDER
         label.textContent = editInput.value;
-
         newTodoList.classList.remove("editing")
       })
   
@@ -61,44 +68,75 @@ new_todo.addEventListener('keyup', function(event){
           newTodoList.classList.remove("completed")
         }
         howManyItmes();
+        noCompletedItems();
       })
   
-      //EDIT TODOLIST
+      // EDIT TODOLIST
       label.addEventListener("dblclick", function() {
         editInput.value = label.textContent;
-        newTodoList.classList.add("editing")
-      })
+        newTodoList.classList.add("editing");
+
+        const autoFocusing = document.querySelector('.editing > input')
+        autoFocusing.focus();
+      });      
       
-      newTodoList.addEventListener("keydown", function(event){
-        if(event.code === 'Enter'){
-          if(editInput.value !== "") {
+      newTodoList.addEventListener("keydown", function(event) {
+        if (event.code === 'Enter') {
+          if (editInput.value !== "") {
             label.textContent = editInput.value;
-            newTodoList.classList.remove("editing")
+            newTodoList.classList.remove("editing");
           } else {
             newTodoList.remove();
           }
         }
-      })
+      });
+
   
       //DELETE TODOLIST
       btnDestroy.addEventListener("click", function(){
-        console.log(1);
         btnDestroy.parentElement.parentElement.remove()
+        howManyItmes();
+        isFooterVisible();
+        isV_ToggleVisible();
+        noCompletedItems();
       })
   
       //MAKING TODOLIST
       todo_list.append(newTodoList)
       newTodoList.append(view)
       new_todo.value = ''
+
       howManyItmes();
+      isFooterVisible();
+      isV_ToggleVisible();
+      noCompletedItems();
     }
-  } 
-     
+  }     
 });
+
+function isFooterVisible() {
+  const newTodoListItems = todo_list.querySelectorAll('li');
+  if (newTodoListItems.length >= 1) {
+    footer.style.display = 'block';
+  } else {
+    footer.style.display = 'none';
+  }
+}
+
+function isV_ToggleVisible() {
+  const newTodoListItems = todo_list.querySelectorAll('li');
+  if (newTodoListItems.length >= 1) {
+    toggleAll.style.display = 'block';
+  } else {
+    toggleAll.style.display = 'none';
+  }
+}
+
 
 //DELETE COMPLETED TODOLIST
 //used GPT
 const clearCompleted = document.querySelector('.clear-completed');
+
 clearCompleted.addEventListener('click', function () {
   const toggleCheckBoxes = document.querySelectorAll('.toggle');
   
@@ -107,19 +145,30 @@ clearCompleted.addEventListener('click', function () {
       checkbox.parentElement.parentElement.remove();
     }
   });
+  isFooterVisible();
+  noCompletedItems();
 });
 
 //HOW MANY ITEMS LEFT? (Strong Tag)
 function howManyItmes(){
   const todo_count = document.querySelector('.todo-count > strong')
+  const ifOneItemLeft = document.querySelector('.todo-count')
   const newTodoList = todo_list.querySelectorAll('li:not(.completed):not(.editing)');
   todo_count.innerHTML = newTodoList.length;
+
+  noCompletedItems();
+  //CASE OF ONLY 1 ITEM LEFT
+  if (todo_list.length === 1) {
+    console.log(1);
+    todo_count.innerHTML = "1 item left"
+  }
+
+
 }
 howManyItmes();
 
-//MARK ALL AS COMPLETE
-//NEED TO EDIT MORE
-const toggleAll = document.querySelector('.toggle-all');
+
+
 
 //MARK EVERYTHING AS DONE
 function completeAll () {
@@ -132,6 +181,7 @@ function completeAll () {
     })
     
     todoItem.classList.add('completed');
+    noCompletedItems();
   });
 
   //NEXT TIME WHEN YOU HIT THE TOGGLE, MAKE EVERYTHING MARK AS ACTIVE
@@ -139,7 +189,6 @@ function completeAll () {
   toggleAll.addEventListener('click', unCompleteAll)
   howManyItmes();
 };
-
 //MARK EVERYTHING AS ACTIVE
 function unCompleteAll(){
   const liComEdi = todo_list.querySelectorAll('.editing, .completed');
@@ -176,7 +225,9 @@ $all.addEventListener('click', function(){
 })
 
 //ACTIVE, SHOW ACTIVATED LIST ONLY
-$active.addEventListener('click', function(){
+$active.addEventListener('click', activeOrNot)
+
+function activeOrNot(){
   const newTodoList = todo_list.querySelectorAll('li');
   newTodoList.forEach(function(isActive){
     if(isActive.classList.contains('completed')){
@@ -186,12 +237,13 @@ $active.addEventListener('click', function(){
     }
   })
 
-})
+}
 
 //COMPLETED, SHOW COMPLETED LIST ONLY
-$completed.addEventListener('click', function(){
-  const newTodoList = todo_list.querySelectorAll('li')
+$completed.addEventListener('click', completedOrNot)
 
+function completedOrNot(){
+  const newTodoList = todo_list.querySelectorAll('li')
   newTodoList.forEach(function(isCompleted){
     if(!isCompleted.classList.contains('completed')){
       isCompleted.classList.add('hidden');
@@ -199,8 +251,7 @@ $completed.addEventListener('click', function(){
       isCompleted.classList.remove('hidden')
     }
   })
-
-})
+}
 
 //FILTERS, IT MAKES THE 'A'TAG SELECTED
 const $filters = [...document.querySelectorAll('.filters li a')];
@@ -210,32 +261,15 @@ window.addEventListener('hashchange',function(){
   $filters.find( $filter => $filter.href === location.href ).className = 'selected';
 })
 
+function noCompletedItems() {
+  const completedItems = todo_list.querySelectorAll('li.completed');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  if (completedItems.length > 0) {
+    clearCompleted.style.display = 'block'
+  } else {
+    clearCompleted.style.display = 'none'
+  }
+}
 
 
 
