@@ -150,25 +150,20 @@ clearCompleted.addEventListener('click', function () {
 });
 
 //HOW MANY ITEMS LEFT? (Strong Tag)
-function howManyItmes(){
-  const todo_count = document.querySelector('.todo-count > strong')
-  const ifOneItemLeft = document.querySelector('.todo-count')
+function howManyItmes() {
+  const todo_count = document.querySelector('.todo-count > strong');
   const newTodoList = todo_list.querySelectorAll('li:not(.completed):not(.editing)');
   todo_count.innerHTML = newTodoList.length;
-
+  
   noCompletedItems();
-  //CASE OF ONLY 1 ITEM LEFT
-  // if (newTodoList.length === 1) {
-  //   console.log(1);
-  //   ifOneItemLeft.innerHTML = "1 item left"
-  // } else {
-  //   console.log(2);
-  // }
+  
+  // CASE OF ONLY 1 ITEM LEFT
+  if (newTodoList.length === 1) {
+    console.log(1);
+    todo_count.textContent = "1 item left";
+  }
 }
 howManyItmes();
-
-
-
 
 //MARK EVERYTHING AS DONE
 function completeAll () {

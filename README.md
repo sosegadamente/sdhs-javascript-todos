@@ -8,7 +8,7 @@ https://todomvc.com/examples/vanillajs/
 ###  20240105
 
 <!-- - 처음 화면에서 토글 버튼이랑 하단 푸터가 보임 - 수정 완료 -->
-- active 가 하나 남았을 떄 "1 item left" 로 변해야함
+- active 가 하나 남았을 떄 "1 item left" 로 변해야함 - 거의 다 했는데 이상하게 됌
 - 생성을 했을 때 필터의 여부를 구분해야된다.
 <!-- - completed 가 없을 때 clear completed 가 보이면 안됨 - 수정 완료 -->
 - active 에서 눌렀을 때 필터링이 작동하지 않음
