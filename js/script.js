@@ -158,12 +158,12 @@ function howManyItmes(){
 
   noCompletedItems();
   //CASE OF ONLY 1 ITEM LEFT
-  if (todo_list.length === 1) {
-    console.log(1);
-    todo_count.innerHTML = "1 item left"
-  }
-
-
+  // if (newTodoList.length === 1) {
+  //   console.log(1);
+  //   ifOneItemLeft.innerHTML = "1 item left"
+  // } else {
+  //   console.log(2);
+  // }
 }
 howManyItmes();
 
@@ -270,6 +270,10 @@ function noCompletedItems() {
     clearCompleted.style.display = 'none'
   }
 }
+
+
+
+
 
 
 
