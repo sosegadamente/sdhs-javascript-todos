@@ -146,6 +146,7 @@ clearCompleted.addEventListener('click', function () {
     }
   });
   isFooterVisible();
+  isV_ToggleVisible()
   noCompletedItems();
 });
 
@@ -153,14 +154,15 @@ clearCompleted.addEventListener('click', function () {
 function howManyItmes() {
   const todo_count = document.querySelector('.todo-count > strong');
   const newTodoList = todo_list.querySelectorAll('li:not(.completed):not(.editing)');
-  todo_count.innerHTML = newTodoList.length;
-  
+  const $span = document.querySelector('.todo-count');
+  const numLength = todo_count.innerHTML = newTodoList.length;  
   noCompletedItems();
   
   // CASE OF ONLY 1 ITEM LEFT
   if (newTodoList.length === 1) {
-    console.log(1);
-    todo_count.textContent = "1 item left";
+    $span.innerHTML = `<span class="todo-count"><strong>1</strong> item left</span>`
+  } else {
+    $span.innerHTML = `<span class="todo-count"><strong>${numLength}</strong> items left</span>`
   }
 }
 howManyItmes();
