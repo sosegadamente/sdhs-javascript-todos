@@ -192,8 +192,7 @@ function completeAll () {
   toggleAll.removeEventListener('click', completeAll)
   toggleAll.addEventListener('click', unCompleteAll)
   howManyItmes();
-
-  vShapeToggle.checked = true;
+  vShapeToggle.checked = false;
 };
 //MARK EVERYTHING AS ACTIVE
 function unCompleteAll(){
@@ -207,13 +206,13 @@ function unCompleteAll(){
     })
     
     todoItem.classList.remove('completed');
-    vShapeToggle.checked = false;
   });
-
+  
   //NEXT TIME WHEN YOU HIT THE TOGGLE, MAKE EVERYTHING MARK AS DONE
   toggleAll.removeEventListener('click', unCompleteAll)
   toggleAll.addEventListener('click', completeAll)
   howManyItmes();
+  vShapeToggle.checked = true;
 }
 
 function vToggleChecked () {
@@ -235,7 +234,6 @@ function vToggleChecked () {
   }
 
 }
-vToggleChecked()
 
 toggleAll.addEventListener('click', completeAll)
 
