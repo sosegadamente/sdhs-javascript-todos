@@ -69,6 +69,8 @@ new_todo.addEventListener('keyup', function(event){
         }
         howManyItmes();
         noCompletedItems();
+        vToggleChecked()
+
       })
   
       // EDIT TODOLIST
@@ -99,6 +101,8 @@ new_todo.addEventListener('keyup', function(event){
         isFooterVisible();
         isV_ToggleVisible();
         noCompletedItems();
+        vToggleChecked()
+
       })
   
       //MAKING TODOLIST
@@ -110,6 +114,7 @@ new_todo.addEventListener('keyup', function(event){
       isFooterVisible();
       isV_ToggleVisible();
       noCompletedItems();
+      vToggleChecked()
     }
   }     
 });
@@ -148,6 +153,7 @@ clearCompleted.addEventListener('click', function () {
   isFooterVisible();
   isV_ToggleVisible()
   noCompletedItems();
+  vToggleChecked()
 });
 
 //HOW MANY ITEMS LEFT? (Strong Tag)
@@ -171,6 +177,7 @@ howManyItmes();
 function completeAll () {
   const newTodoList = todo_list.querySelectorAll('li:not(.completed):not(.editing)');
   const checkbox = document.querySelectorAll('.toggle')
+  const vShapeToggle = document.querySelector('.toggle-all')
 
   newTodoList.forEach(function(todoItem) {
     checkbox.forEach((element) => {
@@ -185,11 +192,14 @@ function completeAll () {
   toggleAll.removeEventListener('click', completeAll)
   toggleAll.addEventListener('click', unCompleteAll)
   howManyItmes();
+
+  vShapeToggle.checked = true;
 };
 //MARK EVERYTHING AS ACTIVE
 function unCompleteAll(){
   const liComEdi = todo_list.querySelectorAll('.editing, .completed');
   const checkbox = document.querySelectorAll('.toggle')
+  const vShapeToggle = document.querySelector('.toggle-all')
 
   liComEdi.forEach(function(todoItem) {
     checkbox.forEach((element) => {
@@ -197,6 +207,7 @@ function unCompleteAll(){
     })
     
     todoItem.classList.remove('completed');
+    vShapeToggle.checked = false;
   });
 
   //NEXT TIME WHEN YOU HIT THE TOGGLE, MAKE EVERYTHING MARK AS DONE
@@ -204,6 +215,27 @@ function unCompleteAll(){
   toggleAll.addEventListener('click', completeAll)
   howManyItmes();
 }
+
+function vToggleChecked () {
+  const liComEdi = todo_list.querySelectorAll('.completed');
+  const vShapeToggle = document.querySelector('.toggle-all')
+
+  if(liComEdi.length != 0){
+    if ([...liComEdi].every(item => item.classList.contains('completed'))) {
+      vShapeToggle.checked = true
+    } 
+    // else if([...liComEdi].every(item => !item.classList.contains('completed'))) {
+    //   vShapeToggle.checked = false;
+    // }
+    else {
+      vShapeToggle.checked = false;
+    }
+  } else {
+    vShapeToggle.checked = false
+  }
+
+}
+vToggleChecked()
 
 toggleAll.addEventListener('click', completeAll)
 
