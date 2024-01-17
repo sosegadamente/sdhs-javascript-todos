@@ -12,11 +12,16 @@
 // undefined 내가 선언을 안했을 안했어 
 // null 내가 선언은했는데 빈값이야 
 
+function idx() {
+  return Math.random();
+};
+
 const new_todo = document.querySelector('.new-todo')
 const filters = document.querySelector('filters')
 const todo_list = document.querySelector('.todo-list')
 const toggleAll = document.querySelector('label');
 const footer = document.querySelector('footer');
+
 
 window.addEventListener('load', function(){
   isFooterVisible();
@@ -70,7 +75,6 @@ new_todo.addEventListener('keyup', function(event){
         howManyItmes();
         noCompletedItems();
         vToggleChecked()
-
       })
   
       // EDIT TODOLIST
@@ -102,7 +106,6 @@ new_todo.addEventListener('keyup', function(event){
         isV_ToggleVisible();
         noCompletedItems();
         vToggleChecked()
-
       })
   
       //MAKING TODOLIST
@@ -263,7 +266,6 @@ function activeOrNot(){
       isActive.classList.remove('hidden')
     }
   })
-
 }
 
 //COMPLETED, SHOW COMPLETED LIST ONLY
@@ -297,6 +299,146 @@ function noCompletedItems() {
     clearCompleted.style.display = 'none'
   }
 }
+
+
+//준건선배 설명(이제부터 본격 자스 시작...)
+
+const state = {
+  filter: 'all',
+  todos: [
+    {
+      idx: idx(),
+      name: '해커톤 망치기',
+      completed: true,
+    },
+    {
+      idx: idx(),
+      name: 'object 완벽 이해',
+      completed: false,
+    },
+    {
+      idx: idx(),
+      name: '집가기',
+      completed: false,
+    }
+  ],
+};
+
+state.todos.push({
+  idx: idx(),
+  name: 'test',
+  completed: false
+});
+
+const idxNum = state.todos.forEach((num)=>{
+  return num + 1;
+})
+
+console.log(idxNum);
+
+
+const array = state.todos.map(
+  (todo, i) => {
+    return `<li>
+      <div class="view">
+        <input class="toggle" type="checkbox" ${todo.completed ? 'checked' : '' }/>
+        <label>${todo.name}</label>
+        <button class="destroy"></button>
+      </div>
+      <input class="edit" type="text" />
+    </li>`;
+  }
+);
+
+console.log(array.join(''));
+
+const array2 = ['홍', '의', '준'];
+console.log(array2.join(''));
+
+// console.log(array);
+
+
+
+
+// console.log(state.todos[0].nane);
+// console.log(state.todos[1].nane);
+// console.log(state.todos[2].nane);
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // Function to save todo items to local storage
+// function saveTodoToLocalStorage() {
+//   const todoItems = [];
+//   const todoListItems = todo_list.querySelectorAll('li');
+
+//   todoListItems.forEach(function (todoItem) {
+//     const label = todoItem.querySelector('label').textContent;
+//     const isChecked = todoItem.classList.contains('completed');
+
+//     todoItems.push({ label, isChecked });
+//   });
+
+//   localStorage.setItem('todos', JSON.stringify(todoItems));
+// }
+
+// // Call this function whenever a new todo item is added or modified
+// function updateLocalStorage() {
+//   saveTodoToLocalStorage();
+//   // You can also add other local storage updates here if needed
+// }
+
+// // Event listeners for adding and modifying todo items
+// new_todo.addEventListener('keyup', function (event) {
+//   // Existing code...
+
+//   // Call the function to update local storage
+//   updateLocalStorage();
+// });
+
+// // Other event listeners...
+
+// // Call this function on page load to retrieve todos from local storage
+// function loadTodosFromLocalStorage() {
+//   const storedTodos = localStorage.getItem('todos');
+
+//   if (storedTodos) {
+//     const todos = JSON.parse(storedTodos);
+
+//     todos.forEach(function (todo) {
+//       const newTodoList = document.createElement('li');
+//       newTodoList.innerHTML = `
+//         <div class="view">
+//           <input class="toggle" type="checkbox" ${todo.isChecked ? 'checked' : ''} />
+//           <label>${todo.label}</label>
+//           <button class="destroy"></button>
+//         </div>
+//         <input class="edit" type="text" />
+//       `;
+
+//       // Existing code...
+
+//       // Append the loaded todo item to the todo list
+//       todo_list.append(newTodoList);
+//     });
+//   }
+// }
+
+// // Call the function on page load
+// window.addEventListener('load', function () {
+//   loadTodosFromLocalStorage();
+//   isFooterVisible();
+//   isV_ToggleVisible();
+// });
 
 
 
