@@ -301,7 +301,7 @@ function noCompletedItems() {
 }
 
 
-//준건선배 설명(이제부터 본격 자스 시작...)
+//준건선배 설명(이제부터 본격 자스 시작....)
 
 const state = {
   filter: 'all',
@@ -330,12 +330,24 @@ state.todos.push({
   completed: false
 });
 
+const pushObj = state.todos.forEach(function(e){
+  return e.idx
+})
+
+console.log(pushObj);
+
+
 const idxNum = state.todos.forEach((num)=>{
   return num + 1;
 })
 
 console.log(idxNum);
 
+const mapPrac = state.todos.map(function(idx){
+  return idx >= 0;
+})
+
+console.log(mapPrac);
 
 const array = state.todos.map(
   (todo, i) => {
@@ -350,10 +362,10 @@ const array = state.todos.map(
   }
 );
 
-console.log(array.join(''));
+// console.log(array.join(''));
 
 const array2 = ['홍', '의', '준'];
-console.log(array2.join(''));
+// console.log(array2.join(''));
 
 // console.log(array);
 
